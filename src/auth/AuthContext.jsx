@@ -5,6 +5,9 @@ import toast from 'react-hot-toast'
 
 const AuthContext = createContext({})
 
+/** Roles allowed to use this dashboard (Supabase `profiles.role`). */
+const DASHBOARD_ADMIN_ROLES = ['super_admin', 'college_admin']
+
 export function AuthProvider({ children }) {
   const [admin, setAdmin] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -78,9 +81,9 @@ export function AuthProvider({ children }) {
 
       console.log('[Auth] Profile retrieved successfully:', profile);
 
-      if (profile.role !== 'super_admin') {
+      if (!DASHBOARD_ADMIN_ROLES.includes(profile.role)) {
         console.error('[Auth] ACCESS DENIED: Role is', profile.role);
-        toast.error('Access Denied: Super Admin role required.');
+        toast.error('Access denied: College or Super Admin role required.');
         await supabase.auth.signOut();
         setLoading(false);
         return;

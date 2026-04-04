@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import { 
-  Search, Bell, MessageSquare, 
-  Menu, User, Settings, LogOut, Loader2, ChevronDown,
-  ShieldCheck, Smartphone, Eye, EyeOff, LayoutPanelLeft
-} from 'lucide-react';
+import { Menu, LogOut } from 'lucide-react';
 import { useAuthContext } from '../../auth/AuthContext';
-import { supabase } from '../../lib/supabaseClient';
-import toast from 'react-hot-toast';
 
 const TopBar = ({ toggleSidebar }) => {
-  const { user, logout } = useAuthContext();
+  const { admin, logout } = useAuthContext();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -20,33 +14,32 @@ const TopBar = ({ toggleSidebar }) => {
   };
 
   return (
-    <header style={{ 
-      height: '70px', 
-      backgroundColor: '#fff', 
-      borderBottom: '1px solid var(--border)', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'space-between', 
-      padding: '0 24px',
-      position: 'sticky',
-      top: 0,
-      zIndex: 997,
-      backdropFilter: 'blur(8px)',
-      backgroundColor: 'rgba(255, 255, 255, 0.9)'
-    }}>
+    <header
+      className="glass-topbar"
+      style={{
+        height: 'var(--header-height)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 24px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 997,
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <button 
-          onClick={toggleSidebar} 
-          style={{ 
-            background: 'none', 
-            border: 'none', 
-            cursor: 'pointer', 
-            color: 'var(--primary)',
-            padding: '8px',
-            borderRadius: '8px',
-            display: 'flex'
+        <button
+          type="button"
+          onClick={toggleSidebar}
+          className="icon-btn-tilt"
+          style={{
+            border: 'none',
+            cursor: 'pointer',
+            color: '#e2e8f0',
+            padding: '10px',
+            display: 'flex',
+            background: 'transparent',
           }}
-          className="icon-btn-hover"
         >
           <Menu size={24} />
         </button>
@@ -56,24 +49,68 @@ const TopBar = ({ toggleSidebar }) => {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', borderRadius: '14px', backgroundColor: '#F8FAFC', border: '1px solid var(--border)', position: 'relative', cursor: 'pointer' }} onClick={() => setShowProfileMenu(!showProfileMenu)}>
-           <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--accent)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-              {user?.email?.charAt(0).toUpperCase()}
+        <div
+          className="profile-chip"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '10px 16px',
+            borderRadius: '14px',
+            position: 'relative',
+            cursor: 'pointer',
+          }}
+          onClick={() => setShowProfileMenu(!showProfileMenu)}
+          onKeyDown={(e) => e.key === 'Escape' && setShowProfileMenu(false)}
+          role="button"
+          tabIndex={0}
+        >
+           <div
+             style={{
+               width: '38px',
+               height: '38px',
+               borderRadius: '12px',
+               background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+               color: '#fff',
+               display: 'flex',
+               alignItems: 'center',
+               justifyContent: 'center',
+               fontWeight: 'bold',
+               boxShadow: '0 6px 18px rgba(99, 102, 241, 0.45)',
+             }}
+           >
+              {admin?.email?.charAt(0).toUpperCase()}
            </div>
-           <div style={{ display: 'none', md: 'block' }}>
-              <p style={{ fontSize: '13px', fontWeight: '700', color: 'var(--primary)' }}>Super Admin</p>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{user?.email}</p>
+           <div className="topbar-profile-text">
+              <p style={{ fontSize: '13px', fontWeight: '700', color: '#e0e7ff' }}>College Interface</p>
+              <p style={{ fontSize: '11px', color: '#94a3b8' }}>{admin?.email}</p>
            </div>
-           
-           {/* DROPDOWN MENU */}
+
            {showProfileMenu && (
-             <div style={{ position: 'absolute', top: 'calc(100% + 12px)', right: 0, width: '220px', backgroundColor: '#fff', borderRadius: '16px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)', border: '1px solid var(--border)', overflow: 'hidden', zIndex: 1001 }}>
-                <div style={{ padding: '16px', backgroundColor: '#F8FAFC', borderBottom: '1px solid var(--border)' }}>
-                   <p style={{ fontSize: '14px', fontWeight: 'bold' }}>Access Control</p>
-                   <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Verified Super Admin Instance</p>
+             <div
+               className="glass-dropdown"
+               style={{
+                 position: 'absolute',
+                 top: 'calc(100% + 12px)',
+                 right: 0,
+                 width: '240px',
+                 borderRadius: '16px',
+                 overflow: 'hidden',
+                 zIndex: 1001,
+               }}
+             >
+                <div
+                  style={{
+                    padding: '16px',
+                    borderBottom: '1px solid rgba(255,255,255,0.1)',
+                    background: 'rgba(255,255,255,0.04)',
+                  }}
+                >
+                   <p style={{ fontSize: '14px', fontWeight: 'bold', color: '#f1f5f9' }}>Access Control</p>
+                   <p style={{ fontSize: '11px', color: '#94a3b8' }}>College Interface session</p>
                 </div>
                 <div style={{ padding: '8px' }}>
-                   <button onClick={handleLogout} disabled={loading} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', background: 'none', border: 'none', cursor: 'pointer', color: '#EF4444', borderRadius: '8px', fontSize: '13px' }} className="btn-logout-hover">
+                   <button type="button" onClick={handleLogout} disabled={loading} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', cursor: loading ? 'wait' : 'pointer', color: '#fca5a5', borderRadius: '10px', fontSize: '13px', transition: 'background 0.2s' }} onMouseEnter={(e) => !loading && (e.currentTarget.style.background = 'rgba(239,68,68,0.2)')} onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(239,68,68,0.1)')}>
                       <LogOut size={16} />
                       {loading ? 'Processing...' : 'Secure Sign Out'}
                    </button>

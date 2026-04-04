@@ -23,11 +23,12 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  if (loading) return (
-     <div style={{ padding: '60px', display: 'flex', justifyContent: 'center' }}>
-       <Loader2 className="animate-spin" size={40} color="var(--accent)" />
-     </div>
-  );
+  if (loading)
+    return (
+      <div style={{ padding: '60px', display: 'flex', justifyContent: 'center' }}>
+        <Loader2 className="animate-spin" size={40} color="#a5b4fc" />
+      </div>
+    );
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -40,14 +41,19 @@ const Orders = () => {
         <div style={{ padding: '20px', borderBottom: '1px solid var(--border)', display: 'flex', gap: '16px' }}>
            <div style={{ position: 'relative', flex: 1 }}>
               <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input type="text" placeholder="Search by Order ID, Shop, or Customer..." style={{ width: '100%', paddingLeft: '40px', height: '42px', borderRadius: '10px', border: '1px solid var(--border)' }} />
+              <input
+                type="text"
+                placeholder="Search by Order ID, Shop, or Customer..."
+                className="glass-input"
+                style={{ width: '100%', paddingLeft: '40px', height: '42px' }}
+              />
            </div>
         </div>
 
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <table className="glass-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr style={{ borderBottom: '1px solid var(--border)', backgroundColor: '#F8FAFC' }}>
+              <tr style={{ borderBottom: '1px solid var(--border)' }}>
                 <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Order ID</th>
                 <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Shop</th>
                 <th style={{ padding: '16px 20px', fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Customer</th>

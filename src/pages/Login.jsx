@@ -53,7 +53,7 @@ const Login = () => {
           }}>
             <ShieldCheck size={32} />
           </div>
-          <h1 style={{ color: 'white', fontSize: '28px', fontWeight: '700', marginBottom: '8px' }}>Super Admin Portal</h1>
+          <h1 style={{ color: 'white', fontSize: '28px', fontWeight: '700', marginBottom: '8px' }}>College Interface</h1>
           <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '15px' }}>College Food Court Master Control</p>
         </div>
 

@@ -28,7 +28,6 @@ const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
 
   const sidebarStyle = {
     width: '260px',
-    backgroundColor: '#0F172A',
     color: '#CBD5E1',
     display: 'flex',
     flexDirection: 'column',
@@ -45,22 +44,25 @@ const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
   };
 
   return (
-    <div style={sidebarStyle}>
+    <div className="admin-sidebar" style={sidebarStyle}>
       <div style={{ padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #1E293B' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ 
-            width: '32px', 
-            height: '32px', 
-            borderRadius: '8px', 
-            background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff'
-          }}>
+          <div
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '12px',
+              background: 'linear-gradient(145deg, rgba(99,102,241,0.9) 0%, rgba(79,70,229,0.95) 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+              boxShadow: '0 8px 24px rgba(99, 102, 241, 0.45), inset 0 1px 0 rgba(255,255,255,0.25)',
+            }}
+          >
             <Package size={20} />
           </div>
-          <span style={{ fontSize: '18px', fontWeight: '700', color: '#fff' }}>Super Admin</span>
+          <span style={{ fontSize: '18px', fontWeight: '700', color: '#fff' }}>College Interface</span>
         </div>
         {isMobile && (
           <button onClick={toggleSidebar} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#fff' }}>
@@ -75,17 +77,16 @@ const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
             key={item.name}
             to={item.path}
             onClick={() => isMobile && toggleSidebar()}
-            style={({ isActive }) => ({
+            className={({ isActive }) =>
+              `nav-pill admin-sidebar-nav-item${isActive ? ' nav-pill-active' : ''}`
+            }
+            style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '12px 16px',
-              borderRadius: '10px',
               textDecoration: 'none',
-              color: isActive ? '#fff' : '#94A3B8',
-              backgroundColor: isActive ? '#1E293B' : 'transparent',
-              transition: 'all 0.2s'
-            })}
+            }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <item.icon size={20} />
@@ -99,6 +100,7 @@ const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
       <div style={{ padding: '20px 12px', borderTop: '1px solid #1E293B' }}>
         <button
           onClick={handleLogout}
+          className="nav-pill"
           style={{
             width: '100%',
             display: 'flex',
@@ -106,14 +108,20 @@ const Sidebar = ({ isOpen, toggleSidebar, isMobile }) => {
             gap: '12px',
             padding: '12px 16px',
             borderRadius: '10px',
-            border: 'none',
-            backgroundColor: 'transparent',
-            color: '#EF4444',
+            border: '1px solid rgba(239, 68, 68, 0.25)',
+            background: 'rgba(239, 68, 68, 0.08)',
+            color: '#FCA5A5',
             cursor: 'pointer',
-            transition: 'background-color 0.2s',
+            transition: 'transform 0.2s, box-shadow 0.2s, background 0.2s',
           }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.18)'
+            e.currentTarget.style.transform = 'translateX(4px)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)'
+            e.currentTarget.style.transform = 'none'
+          }}
         >
           <LogOut size={20} />
           <span style={{ fontSize: '14px', fontWeight: '600' }}>Logout Panel</span>

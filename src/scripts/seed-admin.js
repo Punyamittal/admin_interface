@@ -28,7 +28,7 @@ async function testSimpleCreate() {
       .from('profiles')
       .update({
         role: 'super_admin',
-        full_name: 'Campus Super Admin'
+        full_name: 'College Interface Admin'
       })
       .eq('id', newUser.user.id)
     

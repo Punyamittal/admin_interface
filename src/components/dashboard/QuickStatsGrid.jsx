@@ -28,18 +28,18 @@ const QuickStatsGrid = () => {
   }, []);
 
   const stats = [
-    { label: 'Total Locations', value: counts.locations, icon: MapPin, color: 'var(--accent)' },
-    { label: 'Live Shops', value: counts.shops, icon: Store, color: 'var(--success)' },
-    { label: 'Verified Vendors', value: counts.vendors, icon: UserCheck, color: 'var(--warning)' },
-    { label: "Total Orders", value: counts.orders, icon: ShoppingBag, color: 'var(--primary)' }
-  ];
+    { label: 'Total Locations', value: counts.locations, icon: MapPin, color: 'var(--chart-1)' },
+    { label: 'Live Shops', value: counts.shops, icon: Store, color: 'var(--chart-4)' },
+    { label: 'Verified Vendors', value: counts.vendors, icon: UserCheck, color: 'var(--chart-5)' },
+    { label: 'Total Orders', value: counts.orders, icon: ShoppingBag, color: 'var(--chart-3)' },
+  ]
 
   if (loading) {
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+      <div className="quick-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
         {[...Array(4)].map((_, i) => (
           <div key={i} className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px' }}>
-            <Loader2 className="animate-spin" size={24} color="var(--text-muted)" />
+            <Loader2 className="animate-spin" size={24} color="#94a3b8" />
           </div>
         ))}
       </div>
@@ -47,16 +47,32 @@ const QuickStatsGrid = () => {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+    <div className="quick-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
       {stats.map((stat) => (
-        <div key={stat.label} className="card" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <div style={{
-            width: '56px',
-            height: '56px',
-            borderRadius: '16px',
-            backgroundColor: `${stat.color}15`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', color: stat.color
-          }}>
+        <div
+          key={stat.label}
+          className="card interactive-lift"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            cursor: 'default',
+          }}
+        >
+          <div
+            style={{
+              width: '56px',
+              height: '56px',
+              borderRadius: '16px',
+              background: `linear-gradient(135deg, ${stat.color}33, ${stat.color}14)`,
+              border: '1px solid rgba(255,255,255,0.12)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: stat.color,
+              boxShadow: `0 8px 24px ${stat.color}22`,
+            }}
+          >
             <stat.icon size={28} />
           </div>
           <div>

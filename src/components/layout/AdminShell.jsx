@@ -27,8 +27,8 @@ const AdminShell = () => {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', width: '100%', position: 'relative' }}>
-      {/* Sidebar - Handles its own mobile vs desktop logic based on isOpen prop */}
+    <div className="admin-app" style={{ display: 'flex', minHeight: '100vh', width: '100%', position: 'relative' }}>
+      <div className="admin-app-bg" aria-hidden="true" />
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isMobile={isMobile} />
       
       {/* Mobile Backdrop */}
@@ -44,12 +44,14 @@ const AdminShell = () => {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
         <TopBar toggleSidebar={toggleSidebar} />
-        <main style={{ 
-            padding: isMobile ? '16px' : '24px', 
-            overflowY: 'auto', 
-            backgroundColor: 'var(--bg-app)', 
-            flex: 1 
-        }}>
+        <main
+          className="admin-app-main"
+          style={{
+            padding: isMobile ? '16px' : '24px',
+            overflowY: 'auto',
+            flex: 1,
+          }}
+        >
           <Outlet />
         </main>
       </div>

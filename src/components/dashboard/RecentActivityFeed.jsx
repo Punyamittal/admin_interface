@@ -1,4 +1,4 @@
-import { Activity, UserPlus, Store, Trash2, Edit2, ShieldCheck, UserCheck } from 'lucide-react';
+import { Activity, UserPlus, Store, Trash2, ShieldCheck, UserCheck } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 const RecentActivityFeed = ({ activities = [] }) => {
@@ -34,26 +34,32 @@ const RecentActivityFeed = ({ activities = [] }) => {
           return (
             <div key={activity.id || index} style={{ display: 'flex', gap: '16px', position: 'relative' }}>
               {index !== activities.length - 1 && (
-                <div style={{
-                  position: 'absolute',
-                  left: '18px',
-                  top: '40px',
-                  width: '2px',
-                  height: 'calc(100% - 16px)',
-                  backgroundColor: '#F1F5F9'
-                }}></div>
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '18px',
+                    top: '40px',
+                    width: '2px',
+                    height: 'calc(100% - 16px)',
+                    background: 'linear-gradient(180deg, rgba(255,255,255,0.2), rgba(99,102,241,0.15))',
+                  }}
+                />
               )}
-              <div style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: '50%',
-                backgroundColor: color + '15',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: color,
-                zIndex: 1
-              }}>
+              <div
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: `linear-gradient(135deg, ${color}35, ${color}18)`,
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: color,
+                  zIndex: 1,
+                  boxShadow: `0 6px 16px ${color}30`,
+                }}
+              >
                 <Icon size={18} />
               </div>
               <div style={{ flex: 1 }}>
@@ -69,7 +75,7 @@ const RecentActivityFeed = ({ activities = [] }) => {
         })}
       </div>
 
-      <button className="btn btn-outline" style={{ marginTop: '24px', width: '100%', fontSize: '13px' }}>
+      <button type="button" className="btn btn-outline" style={{ marginTop: '24px', width: '100%', fontSize: '13px' }}>
         View All History
       </button>
     </div>

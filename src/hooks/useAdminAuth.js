@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { supabaseAdmin } from '../lib/supabaseAdmin'
 
+const DASHBOARD_ADMIN_ROLES = ['super_admin', 'college_admin']
+
 export function useAdminAuth() {
   const [admin, setAdmin] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -31,7 +33,7 @@ export function useAdminAuth() {
       .eq('id', userId)
       .single()
 
-    if (profile?.role !== 'super_admin') {
+    if (!profile || !DASHBOARD_ADMIN_ROLES.includes(profile.role)) {
       await supabase.auth.signOut()
       setAdmin(null)
       setLoading(false)

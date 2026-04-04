@@ -83,15 +83,24 @@ const Dashboard = () => {
                 <AreaChart data={revenueData}>
                     <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="var(--accent)" stopOpacity={0.1}/>
-                        <stop offset="95%" stopColor="var(--accent)" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="var(--chart-2)" stopOpacity={0.12} />
+                        <stop offset="95%" stopColor="var(--chart-2)" stopOpacity={0} />
                     </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--text-muted)' }} dy={10} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: 'var(--text-muted)' }} tickFormatter={(val) => `₹${val}`} />
-                    <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: 'var(--card-shadow)', fontSize: '12px' }} />
-                    <Area type="monotone" dataKey="revenue" stroke="var(--accent)" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.25)" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} dy={10} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} tickFormatter={(val) => `₹${val}`} />
+                    <Tooltip
+                      contentStyle={{
+                        borderRadius: '12px',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                        background: 'rgba(15, 23, 42, 0.92)',
+                        backdropFilter: 'blur(12px)',
+                        fontSize: '12px',
+                        color: '#e2e8f0',
+                      }}
+                    />
+                    <Area type="monotone" dataKey="revenue" stroke="var(--chart-2)" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
                 </AreaChart>
                 </ResponsiveContainer>
             ) : (

@@ -73,7 +73,7 @@ const OrderMonitor = () => {
       <div style={{ marginBottom: '16px', display: 'flex', gap: '8px', alignItems: 'center', fontSize: '13px', color: 'var(--text-muted)' }}>
         <Home size={14} />
         <ArrowRight size={12} />
-        <span>Admin</span>
+        <span>College Interface</span>
         <ArrowRight size={12} />
         <span style={{ color: 'var(--accent)', fontWeight: '600' }}>Live Order Monitor</span>
       </div>

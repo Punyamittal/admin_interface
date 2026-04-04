@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Home, ArrowRight, Package, Store, Loader2, X, ExternalLink, MapPin, Search, Tag } from 'lucide-react';
-import { supabase } from '../lib/supabaseClient';
+import { Package, Store, Loader2, X } from 'lucide-react';
 import { supabaseAdmin } from '../lib/supabaseAdmin';
-import toast from 'react-hot-toast';
 
-const CategoriesGrid = ({ refreshTrigger, onEdit, onDetail }) => {
+const CategoriesGrid = ({ onDetail }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -58,17 +56,14 @@ const CategoriesGrid = ({ refreshTrigger, onEdit, onDetail }) => {
 
   useEffect(() => {
     fetchRealData();
-  }, [refreshTrigger]);
+  }, []);
 
-  const handleDelete = async (cat, e) => {
-    e.stopPropagation();
-    if (window.confirm(`Permanently remove category "${cat.name}"?`)) {
-        const { error } = await supabaseAdmin.from('categories').delete().eq('id', cat.id);
-        if (!error) { toast.success('Removed.'); fetchRealData(); }
-    }
-  };
-
-  if (loading) return <div style={{ padding: '60px', textAlign: 'center' }}><Loader2 className="animate-spin" size={40} color="var(--accent)" /></div>;
+  if (loading)
+    return (
+      <div style={{ padding: '60px', textAlign: 'center' }}>
+        <Loader2 className="animate-spin" size={40} color="#a5b4fc" />
+      </div>
+    );
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px', marginTop: '32px' }}>
@@ -78,12 +73,8 @@ const CategoriesGrid = ({ refreshTrigger, onEdit, onDetail }) => {
           justifyContent: 'space-between', borderTop: `4px solid ${cat.color}`,
           cursor: 'pointer'
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+          <div style={{ marginBottom: '20px' }}>
             <div style={{ fontSize: '32px', width: '64px', height: '64px', backgroundColor: cat.color, borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{cat.emoji}</div>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={(e) => { e.stopPropagation(); onEdit(cat); }} style={{ padding: '8px', color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer' }}><Edit2 size={16} /></button>
-              <button onClick={(e) => handleDelete(cat, e)} style={{ padding: '8px', color: 'var(--danger)', background: 'none', border: 'none', cursor: 'pointer' }}><Trash2 size={16} /></button>
-            </div>
           </div>
           <div>
             <h3 style={{ fontSize: '18px', marginBottom: '8px', color: 'var(--primary)' }}>{cat.name}</h3>
@@ -99,22 +90,15 @@ const CategoriesGrid = ({ refreshTrigger, onEdit, onDetail }) => {
 };
 
 const Categories = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedCat, setSelectedCat] = useState(null);
   const [catItems, setCatItems] = useState([]);
   const [loadingDetail, setLoadingDetail] = useState(false);
 
-  const [editingCat, setEditingCat] = useState(null);
-  const [catName, setCatName] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
-
   const handleOpenDetail = async (cat) => {
     setSelectedCat(cat);
     setIsDetailOpen(true);
     setLoadingDetail(true);
-    // Fetch all items in this category across all shops
     const { data } = await supabaseAdmin
         .from('menu_items')
         .select(`
@@ -126,43 +110,31 @@ const Categories = () => {
     setLoadingDetail(false);
   };
 
-  const handleOpenEdit = (cat) => {
-    setEditingCat(cat);
-    setCatName(cat.name);
-    setIsModalOpen(true);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const res = editingCat 
-        ? await supabaseAdmin.from('categories').update({ name: catName }).eq('id', editingCat.id)
-        : await supabaseAdmin.from('categories').insert([{ name: catName }]);
-    if (!res.error) {
-        toast.success(`Success!`);
-        setIsModalOpen(false);
-        setRefreshTrigger(prev => prev + 1);
-    }
-    setIsSubmitting(false);
-  };
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* CATEGORY DETAIL MODAL WITH ITEM GLOBAL LIST */}
       {isDetailOpen && selectedCat && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-          backgroundColor: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(8px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1100
-        }}>
+        <div
+          className="glass-modal-overlay"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1100,
+          }}
+        >
           <div className="card" style={{ width: '100%', maxWidth: '520px', padding: '0', overflow: 'hidden', maxHeight: '85vh', display: 'flex', flexDirection: 'column' }}>
-             <button onClick={() => setIsDetailOpen(false)} style={{ position: 'absolute', right: '16px', top: '16px', border: 'none', background: 'white', borderRadius: '50%', padding: '6px', cursor: 'pointer', zIndex: 10 }}><X size={20} color="var(--text-muted)" /></button>
+             <button type="button" onClick={() => setIsDetailOpen(false)} className="icon-btn-tilt" style={{ position: 'absolute', right: '16px', top: '16px', border: '1px solid rgba(15,23,42,0.15)', background: 'rgba(255,255,255,0.9)', borderRadius: '50%', padding: '6px', cursor: 'pointer', zIndex: 10 }}><X size={20} color="#475569" /></button>
              
              <div style={{ padding: '32px', backgroundColor: selectedCat.color, flexShrink: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <div style={{ fontSize: '32px', width: '64px', height: '64px', backgroundColor: 'white', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>{selectedCat.emoji}</div>
                     <div>
-                        <h2 style={{ fontSize: '20px', color: 'var(--primary)' }}>{selectedCat.name}</h2>
+                        <h2 style={{ fontSize: '20px', color: '#0f172a' }}>{selectedCat.name}</h2>
                         <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Segment Analysis & Global Catalog</p>
                     </div>
                 </div>
@@ -173,7 +145,7 @@ const Categories = () => {
                 {loadingDetail ? <Loader2 className="animate-spin" size={24} /> : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                      {catItems.map(item => (
-                        <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', backgroundColor: '#F8FAFC', borderRadius: '10px', border: '1px solid #E2E8F0' }}>
+                        <div key={item.id} className="glass-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', borderRadius: '10px' }}>
                            <div>
                               <p style={{ fontWeight: '600', fontSize: '13px' }}>{item.name}</p>
                               <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Sold at: {item.shops?.name}</p>
@@ -194,27 +166,12 @@ const Categories = () => {
         </div>
       )}
 
-      {isModalOpen && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(15, 23, 42, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1200 }}>
-          <div className="card" style={{ width: '400px', padding: '32px' }}>
-             <h2 style={{ fontSize: '20px', marginBottom: '24px' }}>{editingCat ? 'Rename' : 'New Category'}</h2>
-             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <input type="text" required value={catName} onChange={(e) => setCatName(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid var(--border)' }} />
-                <div style={{ display: 'flex', gap: '12px' }}>
-                    <button type="button" onClick={() => setIsModalOpen(false)} className="btn btn-outline" style={{ flex: 1 }}>Discard</button>
-                    <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>Save</button>
-                </div>
-             </form>
-          </div>
-        </div>
-      )}
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div><h1 style={{ fontSize: '24px', color: 'var(--primary)' }}>Food Classification System</h1><p style={{ color: 'var(--text-muted)' }}>Global food taxonomies.</p></div>
-        <button onClick={() => { setEditingCat(null); setCatName(''); setIsModalOpen(true); }} className="btn btn-primary"><Plus size={18} /> New Category</button>
+      <div>
+        <h1 style={{ fontSize: '24px', color: 'var(--primary)' }}>Food Classification System</h1>
+        <p style={{ color: 'var(--text-muted)' }}>Global food taxonomies.</p>
       </div>
 
-      <CategoriesGrid refreshTrigger={refreshTrigger} onEdit={handleOpenEdit} onDetail={handleOpenDetail} />
+      <CategoriesGrid onDetail={handleOpenDetail} />
     </div>
   );
 };

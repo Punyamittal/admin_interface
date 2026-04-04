@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useAuthContext } from '../auth/AuthContext'
+import { useAuthContext } from './AuthContext'
 import { Lock, Mail, Eye, EyeOff, ShieldAlert } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -28,17 +28,20 @@ const LockoutTimer = ({ lockedUntil, onExpire }) => {
   const mins = Math.floor(timeLeft / 60)
   const secs = timeLeft % 60
   return (
-    <div style={{ 
-      padding: '12px', 
-      backgroundColor: '#FEF2F2', 
-      color: '#B91C1C', 
-      borderRadius: '8px', 
-      fontSize: '14px', 
-      fontWeight: '600', 
-      textAlign: 'center',
-      marginBottom: '24px',
-      border: '1px solid #FCA5A5'
-    }}>
+    <div
+      style={{
+        padding: '14px',
+        background: 'rgba(239, 68, 68, 0.15)',
+        color: '#fecaca',
+        borderRadius: '12px',
+        fontSize: '14px',
+        fontWeight: '600',
+        textAlign: 'center',
+        marginBottom: '24px',
+        border: '1px solid rgba(248, 113, 113, 0.35)',
+        backdropFilter: 'blur(8px)',
+      }}
+    >
       Too many failed attempts. Try again in {mins}:{secs < 10 ? '0' : ''}{secs}
     </div>
   )
@@ -67,7 +70,7 @@ const Login = () => {
 
     setIsSubmitting(true)
     const { error } = await login(email, password)
-    
+
     if (error) {
       toast.error(error)
       setIsSubmitting(false)
@@ -77,137 +80,104 @@ const Login = () => {
   }
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#1E1B4B', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      flexDirection: 'column',
-      padding: '20px'
-    }}>
-      <div style={{ 
-        width: '100%', 
-        maxWidth: '420px', 
-        backgroundColor: '#FFFFFF', 
-        borderRadius: '24px', 
-        padding: '40px',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-      }}>
+    <div className="auth-ambient">
+      <div className="auth-glass-panel">
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ 
-            width: '60px', 
-            height: '60px', 
-            backgroundColor: '#EEF2FF', 
-            borderRadius: '16px', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            margin: '0 auto 20px',
-            color: '#6366F1' 
-          }}>
-            <Lock size={32} />
+          <div
+            style={{
+              width: '64px',
+              height: '64px',
+              borderRadius: '18px',
+              background: 'linear-gradient(145deg, rgba(99,102,241,0.35), rgba(79,70,229,0.2))',
+              border: '1px solid rgba(255,255,255,0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+              color: '#a5b4fc',
+              boxShadow: '0 12px 40px rgba(99, 102, 241, 0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
+            }}
+          >
+            <Lock size={30} />
           </div>
-          <h1 style={{ fontSize: '24px', fontWeight: '800', color: '#111827', marginBottom: '8px' }}>Admin Portal</h1>
-          <p style={{ color: '#6B7280', fontSize: '15px' }}>Authorised personnel only</p>
-          
-          <div style={{ 
-            marginTop: '16px', 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            gap: '8px', 
-            backgroundColor: '#F3F4F6', 
-            padding: '6px 14px', 
-            borderRadius: '20px',
-            fontSize: '12px',
-            fontWeight: '600',
-            color: '#374151'
-          }}>
-            <ShieldAlert size={14} color="#EF4444" />
+          <h1 className="auth-title" style={{ fontSize: '26px', fontWeight: '800', marginBottom: '8px' }}>
+            College Interface
+          </h1>
+          <p className="auth-sub" style={{ fontSize: '15px' }}>
+            Authorised personnel only
+          </p>
+
+          <div
+            style={{
+              marginTop: '18px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'rgba(15, 23, 42, 0.45)',
+              padding: '8px 16px',
+              borderRadius: '999px',
+              fontSize: '12px',
+              fontWeight: '600',
+              color: '#cbd5e1',
+              border: '1px solid rgba(255,255,255,0.12)',
+            }}
+          >
+            <ShieldAlert size={14} color="#f87171" />
             System monitored for unauthorised access
           </div>
         </div>
 
-        {locked && (
-          <LockoutTimer 
-            lockedUntil={lockedUntil} 
-            onExpire={() => setLocked(false)} 
-          />
-        )}
+        {locked && <LockoutTimer lockedUntil={lockedUntil} onExpire={() => setLocked(false)} />}
 
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#374151', marginBottom: '8px' }}>
-              Administrator email
-            </label>
+            <label className="auth-label">Administrator email</label>
             <div style={{ position: 'relative' }}>
-              <div style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#9CA3AF' }}>
+              <div style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }}>
                 <Mail size={18} />
               </div>
-              <input 
-                type="email" 
-                required 
+              <input
+                type="email"
+                required
                 autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@vitstudent.ac.in"
-                style={{ 
-                  width: '100%', 
-                  padding: '14px 14px 14px 48px', 
-                  borderRadius: '12px', 
-                  border: '1px solid #E5E7EB', 
-                  fontSize: '15px', 
-                  outline: 'none',
-                  transition: 'border-color 0.2s',
-                  backgroundColor: locked ? '#F9FAFB' : '#FFFFFF'
-                }}
+                className="auth-field"
+                style={{ paddingLeft: '48px' }}
                 disabled={locked}
-                onFocus={(e) => e.target.style.borderColor = '#6366F1'}
-                onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
               />
             </div>
           </div>
 
           <div style={{ marginBottom: '32px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', color: '#374151', marginBottom: '8px' }}>
-              Password
-            </label>
+            <label className="auth-label">Password</label>
             <div style={{ position: 'relative' }}>
-              <div style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#9CA3AF' }}>
+              <div style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }}>
                 <Lock size={18} />
               </div>
-              <input 
-                type={showPassword ? 'text' : 'password'} 
-                required 
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ 
-                  width: '100%', 
-                  padding: '14px 48px 14px 48px', 
-                  borderRadius: '12px', 
-                  border: '1px solid #E5E7EB', 
-                  fontSize: '15px', 
-                  outline: 'none',
-                  transition: 'border-color 0.2s',
-                  backgroundColor: locked ? '#F9FAFB' : '#FFFFFF'
-                }}
+                className="auth-field"
+                style={{ paddingLeft: '48px', paddingRight: '48px' }}
                 disabled={locked}
-                onFocus={(e) => e.target.style.borderColor = '#6366F1'}
-                onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
               />
-              <button 
+              <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                style={{ 
-                  position: 'absolute', 
-                  right: '16px', 
-                  top: '50%', 
-                  transform: 'translateY(-50%)', 
-                  color: '#9CA3AF',
+                style={{
+                  position: 'absolute',
+                  right: '16px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#64748b',
                   border: 'none',
                   background: 'none',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -215,38 +185,20 @@ const Login = () => {
             </div>
           </div>
 
-          <button 
-            type="submit" 
-            disabled={isSubmitting || locked}
-            style={{ 
-              width: '100%', 
-              padding: '16px', 
-              backgroundColor: locked ? '#9CA3AF' : '#6366F1', 
-              color: '#FFFFFF', 
-              borderRadius: '12px', 
-              fontSize: '16px', 
-              fontWeight: '700', 
-              border: 'none', 
-              cursor: (isSubmitting || locked) ? 'not-allowed' : 'pointer',
-              boxShadow: '0 10px 15px -3px rgba(99, 102, 241, 0.3)',
-              transition: 'all 0.2s'
-            }}
-            onMouseOver={(e) => { if (!isSubmitting && !locked) e.target.style.backgroundColor = '#4F46E5' }}
-            onMouseOut={(e) => { if (!isSubmitting && !locked) e.target.style.backgroundColor = '#6366F1' }}
-          >
+          <button type="submit" disabled={isSubmitting || locked} className="auth-btn-primary">
             {isSubmitting ? 'Authenticating...' : 'Sign In to Portal'}
           </button>
         </form>
 
         <div style={{ marginTop: '24px', textAlign: 'center' }}>
-          <a href="/forgot-password" style={{ color: '#6366F1', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>
+          <a href="/forgot-password" style={{ color: '#a5b4fc', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>
             Forgotten password?
           </a>
         </div>
       </div>
 
-      <div style={{ marginTop: '32px', textAlign: 'center' }}>
-        <p style={{ color: '#6366F1', fontSize: '12px', opacity: 0.6, letterSpacing: '0.05em' }}>
+      <div style={{ marginTop: '28px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+        <p style={{ color: '#64748b', fontSize: '11px', letterSpacing: '0.06em', maxWidth: '360px' }}>
           UNAUTHORISED ACCESS ATTEMPTS ARE LOGGED AND REPORTED.
         </p>
       </div>
