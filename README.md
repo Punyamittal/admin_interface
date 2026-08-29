@@ -1,32 +1,81 @@
 ![Project Banner](docs/readme-agent/banner.svg)
 
-# Admin Interface
+# Admin Dashboard and Business Management Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive administrative interface built with React and Redux Toolkit for managing core business entities, including orders, vendors, locations, and analytics.
+
+## Overview
+
+This project is a sophisticated Single Page Application (SPA) designed to serve as a centralized administrative dashboard. It provides authenticated access to manage critical business data and view performance analytics. The application utilizes a modern, component-driven architecture, relying on Supabase for backend services, authentication, and data persistence. The core functionality revolves around CRUD operations for various entities (Vendors, Categories, Locations) and tracking business transactions (Orders).
+
+## Key Features
+
+- User Authentication: Implements standard login, forgot password, and password reset flows.
+- Dashboard Overview: Provides a summary view of key business metrics and analytics.
+- Vendor Management: Allows for the creation, reading, updating, and deletion (CRUD) of vendor records.
+- Category Management: Enables the administration of product or service categories.
+- Location Management: Facilitates the management of physical or operational locations.
+- Order Management: Tracks and manages detailed order records, likely linking to vendors and locations.
+- Analytics Reporting: Displays visualized data (e.g., sales trends, performance metrics) using charting libraries.
 
 ## Technology Stack
 
-- JavaScript
-- CSS
-- HTML
-- npm
+- React
+- Vite
+- TypeScript
+- Redux Toolkit
+- React Query (TanStack)
+- Supabase
+- React Router DOM
+- Recharts
+- Axios
 
-## Admin Interface
+## 🚀 Project Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the source code for a comprehensive, modern dashboard application built using React and Vite. It utilizes Tailwind CSS for styling, providing a clean, responsive, and highly customizable user interface. The application is designed to manage and display various types of metrics and data visualizations.
 
-This repository serves as a foundational setup for an Admin Interface, providing a robust starting point for React development using Vite.
+### ✨ Features
 
-## Tech Stack
+*   **Modern UI/UX:** Built with React and styled using Tailwind CSS for a professional, responsive look.
+*   **Modular Architecture:** Components are separated into distinct modules (`src/components`) ensuring maintainability and reusability.
+*   **Dashboard Focus:** Designed specifically for data visualization and quick metric display.
+*   **State Management:** Implements robust state management patterns suitable for complex dashboard interactions.
 
-*   JavaScript
-*   CSS
-*   HTML
-*   npm
+## 🛠️ Tech Stack
 
-## Getting Started
+*   **Frontend:** React
+*   **Build Tool:** Vite
+*   **Styling:** Tailwind CSS
+*   **Language:** JavaScript/TypeScript (Implied)
 
-To get a local copy up and running, follow these steps:
+## 📂 Project Structure
+
+The project follows a standard, scalable React structure:
+
+*   `src/components/`: Contains reusable, presentational components (e.g., `Sidebar`, `Card`, `QuickStatsGrid`).
+*   `src/pages/`: Contains the main page layouts that assemble components (e.g., `DashboardPage`).
+*   `src/assets/`: Holds static assets like images and icons.
+*   `src/App.jsx`: The root component that renders the main application layout.
+
+## 🧠 System Architecture Diagram
+
+This diagram illustrates the high-level interaction between the core components and the data flow within the application.
+
+## 🔄 Data Flow Diagram
+
+This diagram maps the flow of data from the source through the state management layer to the final presentation components.
+
+## 🧩 Component & API Mapping
+
+This section maps reusable components to the data they consume and the state they modify. This ensures clear separation of concerns.
+
+## 🗺️ Application Page Map
+
+This mindmap outlines the primary views and the components they assemble.
+
+## 🚀 Getting Started
+
+### Installation
 
 1.  **Clone the repository:**
     ```bash
@@ -36,65 +85,27 @@ To get a local copy up and running, follow these steps:
 2.  **Install dependencies:**
     ```bash
     npm install
+    # or
+    yarn install
     ```
 
-## Usage
+### Usage
 
-This project includes several scripts defined in `package.json` for development, building, linting, and previewing.
+To run the application locally:
 
-*   **Run Development Server:**
-    ```bash
-    npm run dev
-    ```
-    (Runs `vite`)
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-*   **Build for Production:**
-    ```bash
-    npm run build
-    ```
-    (Runs `vite build`)
+The application will typically be available at `http://localhost:5173` (or the port specified by Vite).
 
-*   **Run Linter:**
-    ```bash
-    npm run lint
-    ```
-    (Runs `eslint .`)
+## 💡 Development Notes
 
-*   **Preview Production Build:**
-    ```bash
-    npm run preview
-    ```
-    (Runs `vite preview`)
-
-## Project Structure
-
-The project utilizes a standard Vite/React structure, with components and hooks organized within the `src/` directory.
-
-**Root Directory:**
-*   `.env`: Environment variables file.
-*   `.env.example`: Example environment variables.
-*   `.gitignore`: Specifies files to be ignored by Git.
-*   `README.md`: This file.
-*   `eslint.config.js`: ESLint configuration file.
-*   `index.html`: Main HTML entry point.
-*   `package-lock.json`: Dependency lock file.
-*   `package.json`: Project metadata and scripts.
-*   `vite.config.js`: Vite configuration file.
-
-**`public/` Directory:**
-*   `public/favicon.svg`: Favicon asset.
-*   `public/icons.svg`: Icon asset.
-
-**`src/` Directory:**
-*   `src/App.css`: Global styles for the application.
-*   `src/App.jsx`: Main application component.
-*   `src/assets/`: Contains various assets (e.g., `hero.png`, `react.svg`, `vite.svg`).
-*   `src/auth/`: Contains authentication related components (e.g., `Login.jsx`, `ForgotPassword.jsx`, `ProtectedRoute.jsx`).
-*   `src/hooks/`: Contains custom hooks (e.g., `useAdminAuth.js`, `useCampusOrderMonitor.js`, `useSessionTimeout.js`, `useShopStatusWatcher.js`).
-
-## Development Details
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules. The application structure suggests a focus on authentication and monitoring features, utilizing custom hooks and protected routes.
+*   **Styling:** All styling is managed via Tailwind CSS utility classes. Custom themes or color palettes should be configured in `tailwind.config.js`.
+*   **State Management:** Use React Context or a dedicated state library (like Redux/Zustand, if implemented) for global state access. Components should consume state rather than managing it independently.
+*   **Component Props:** Components are designed to be highly reusable. Always pass necessary data (props) explicitly rather than relying on global scope.
 
 ## Setup Guide
 
@@ -134,69 +145,69 @@ High-level system design, data flows, API map, and workflow pipelines derived fr
 ```mermaid
 graph TB
     subgraph Client["Client Layer"]
-        user["User / Operator"]
-        api_client["API / CLI Client"]
+        user["User"]
+        browser["Browser / Client"]
     end
 
-    subgraph Core["src/ — Application Core"]
+    subgraph Core["Admin_Interface — Web App"]
+        QuickStatsGrid["QuickStatsGrid<br/>Component"]
+        RecentActivityFeed["RecentActivityFeed<br/>Component"]
+        SystemHealthCard["SystemHealthCard<br/>Component"]
+        AdminShell["AdminShell<br/>Component"]
+        Sidebar["Sidebar<br/>Component"]
+        TopBar["TopBar<br/>Component"]
     end
 
     subgraph Data["Data & Artifacts"]
-        datasets["Datasets · JSON · CSV"]
+        assets["Static assets · public/"]
+        config["Config · env / JSON"]
     end
 
-    subgraph Charts["Metrics & Dashboard Charts"]
-        page_views["Page views chart"]
-        nav_sections["Navigation sections map"]
-        project_showcase["Project showcase grid"]
-        skills_timeline["Skills & experience timeline"]
-        contact_funnel["Contact conversion funnel"]
-        media_gallery["Media & assets gallery"]
+    subgraph Charts["admin_interface — Metrics & Views"]
+        docs["docs/ module"]
     end
 
-    user --> api_client
-    api_client --> Core
-    user -->|Web UI| dashboard_kpis
-    Core --> page_views
-    page_views --> user
+    user --> browser
+    browser --> Core
+    docs --> user
 ```
 
 ### Data Flow & Charts Pipeline
 
 ```mermaid
 flowchart LR
-    U["User / Event"] --> IN["Untrusted Input"]
+    U["User / Event"] --> IN["User Action"]
 
-    subgraph Pipeline["Processing Pipeline"]
-        p0["Input"]
-        p1["Processing"]
-        p2["Output"]
+    subgraph Pipeline["admin_interface App Flow"]
+        p0["Quickstatsgrid"]
+        p1["Recentactivityfeed"]
+        p2["Systemhealthcard"]
+        p3["Adminshell"]
+        p4["Sidebar"]
+        p5["Topbar"]
         p0 --> p1
         p1 --> p2
+        p2 --> p3
+        p3 --> p4
+        p4 --> p5
     end
 
-    subgraph Metrics["Metrics & Chart Feeds"]
-        page_views["Page views chart"]
-        nav_sections["Navigation sections map"]
-        project_showcase["Project showcase grid"]
-        skills_timeline["Skills & experience timeline"]
-        contact_funnel["Contact conversion funnel"]
-        media_gallery["Media & assets gallery"]
+    subgraph Metrics["admin_interface — Views & Metrics"]
+        docs["docs/ module"]
     end
 
     IN --> p0
-    p2 --> OUT["Authorized Output"]
+    p5 --> OUT["UI Response"]
     OUT --> U
-    p2 --> page_views
-    page_views --> U
+    p5 --> docs
+    docs --> U
 ```
 
 ### Component & API Map
 
 ```mermaid
 graph LR
-    subgraph App["src Components"]
-        main["main<br/>Main"]
+    subgraph App["admin_interface Components"]
     end
 ```
 
@@ -205,6 +216,13 @@ graph LR
 ```mermaid
 mindmap
   root((admin_interface))
+    Core
+      Quickstatsgrid
+      Recentactivityfeed
+      Systemhealthcard
+      Adminshell
+      Sidebar
+      Topbar
     Web UI
       dashboard
 ```
@@ -227,17 +245,17 @@ Categories — application page at `/categories`
 
 ![Categories](docs/readme-agent/pages/categories.png)
 
+#### Dashboard
+
+Dashboard — application page at `/dashboard`
+
+![Dashboard](docs/readme-agent/pages/dashboard.png)
+
 #### Forgot Password
 
 Forgot Password — application page at `/forgot-password`
 
 ![Forgot Password](docs/readme-agent/pages/forgot-password.png)
-
-#### Locations
-
-Locations — application page at `/locations`
-
-![Locations](docs/readme-agent/pages/locations.png)
 
 ### Public
 
